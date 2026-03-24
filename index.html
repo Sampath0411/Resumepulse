@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResumePulse - Build ATS-Friendly Resumes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --accent-blue: #0066FF;
+    --accent-blue-light: #3B82F6;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --border-color: #2a2a2a;
+    --card-bg: #1a1a1a;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    z-index: 1000;
+    background: #0a0a0a;
+}
+
+.nav-logo {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.nav-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-blue);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    opacity: 1;
+}
+
+.nav-links a.active {
+    opacity: 1;
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.nav-links a.dull {
+    opacity: 0.4;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* Page Sections */
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 120px 20px 60px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.hero-bg-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px 40px;
+    opacity: 0.06;
+    pointer-events: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hero-bg-text span:last-child { text-align: right; }
+
+.hero-content { text-align: center; z-index: 2; }
+
+.hero-subtitle {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 24px;
+    font-weight: 500;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.hero-title {
+    font-size: 100px;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -4px;
+    margin-bottom: 12px;
+    color: #000000;
+}
+
+.hero-title .fix {
+    display: block;
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: fadeInLeft 1s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.hero-title .my {
+    font-size: 50px;
+    font-weight: 400;
+    font-style: italic;
+    margin: 0 16px;
+    letter-spacing: -1px;
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: fadeInLeft 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.hero-title .itch {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: fadeInLeft 1s ease forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-byline {
+    font-size: 18px;
+    color: #666;
+    font-weight: 400;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.1s;
+}
+
+.hero-byline::before {
+    content: 'by ';
+    font-style: italic;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.3s;
+}
+
+/* BUTTONS - No hover animations */
+.btn {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #000;
+    border: 1px solid rgba(0,0,0,0.3);
+}
+
+.hero-badges {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 80px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.5s;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: #666;
+}
+
+.badge-icon {
+    width: 18px;
+    height: 18px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #000;
+}
+
+/* India Spoke Section Style */
+.india-spoke {
+    background-color: #f5f5f5;
+    color: #0a0a0a;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.india-spoke .section-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 80px;
+    letter-spacing: -2px;
+}
+
+.floating-cards {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.float-card {
+    position: absolute;
+    padding: 16px 20px;
+    border-radius: 16px;
+    width: 180px;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1.3;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    animation: fallIn 0.8s ease-out forwards, float 6s ease-in-out infinite 0.8s;
+    pointer-events: auto;
+    opacity: 0;
+}
+
+.card-percent {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.card-1 {
+    background-color: #1a1a1a;
+    color: white;
+    --rotation: -8deg;
+    left: 2%;
+    top: 15%;
+    z-index: 11;
+    animation-delay: 0.1s, 0.9s;
+}
+
+.card-2 {
+    background-color: var(--accent-blue);
+    color: white;
+    --rotation: 6deg;
+    right: 2%;
+    top: 18%;
+    z-index: 12;
+    animation-delay: 0.2s, 1s;
+}
+
+.card-3 {
+    background-color: #1a1a1a;
+    color: white;
+    --rotation: 5deg;
+    right: 5%;
+    top: 45%;
+    z-index: 13;
+    animation-delay: 0.3s, 1.1s;
+}
+
+.card-4 {
+    background-color: var(--accent-blue);
+    color: white;
+    --rotation: -4deg;
+    left: 5%;
+    top: 50%;
+    z-index: 14;
+    animation-delay: 0.4s, 1.2s;
+}
+
+.card-5 {
+    background-color: #8b5cf6;
+    color: white;
+    --rotation: -6deg;
+    right: 2%;
+    bottom: 20%;
+    z-index: 15;
+    animation-delay: 0.5s, 1.3s;
+}
+
+.card-6 {
+    background-color: #10b981;
+    color: white;
+    --rotation: 7deg;
+    left: 2%;
+    bottom: 18%;
+    z-index: 16;
+    animation-delay: 0.6s, 1.4s;
+}
+
+.card-7 {
+    background-color: #f59e0b;
+    color: white;
+    --rotation: -5deg;
+    right: 15%;
+    bottom: 5%;
+    z-index: 17;
+    animation-delay: 0.7s, 1.5s;
+}
+
+.card-8 {
+    background-color: #ec4899;
+    color: white;
+    --rotation: 4deg;
+    left: 15%;
+    bottom: 8%;
+    z-index: 18;
+    animation-delay: 0.8s, 1.6s;
+}
+
+.star-icon {
+    position: absolute;
+    font-size: 80px;
+    color: var(--accent-blue);
+    opacity: 0.1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+    50% { transform: translateY(-15px) rotate(var(--rotation, 0deg)); }
+}
+
+@keyframes fallIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100vh) rotate(0deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(var(--rotation, 0deg));
+    }
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Top Problems Section Style */
+.top-problems {
+    background-color: var(--bg-primary);
+    padding: 100px 0;
+}
+
+.section-heading {
+    font-size: 42px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 60px;
+    letter-spacing: -2px;
+}
+
+.problem-card-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.problem-cards-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 280px;
+    perspective: 1000px;
+}
+
+.problem-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Different colors for each step card */
+.problem-card[data-index="0"] {
+    background: linear-gradient(135deg, #0066FF 0%, #3B82F6 100%);
+    color: white;
+}
+
+.problem-card[data-index="0"] .problem-category {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.problem-card[data-index="0"] h3 {
+    color: white;
+}
+
+.problem-card[data-index="1"] {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    color: white;
+}
+
+.problem-card[data-index="1"] .problem-category {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.problem-card[data-index="1"] h3 {
+    color: white;
+}
+
+.problem-card[data-index="2"] {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    color: white;
+}
+
+.problem-card[data-index="2"] .problem-category {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.problem-card[data-index="2"] h3 {
+    color: white;
+}
+
+.problem-card:not(.active) {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.problem-card.active {
+    z-index: 10;
+    transform: scale(1) translateY(0);
+}
+
+.problem-category {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #666;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+.problem-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #1a1a1a;
+}
+
+.swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.swipe-arrow { font-size: 18px; opacity: 0.5; }
+
+/* CTA Section */
+.start-building {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+    padding: 120px 40px;
+    overflow: hidden;
+}
+
+.start-building::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(0,102,255,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(138,43,226,0.3) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.building-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.building-left { flex: 0 0 auto; }
+
+.building-title {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -4px;
+    background: linear-gradient(135deg, #fff 0%, #a0c4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.building-right { flex: 0 0 400px; }
+
+.building-right p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+}
+
+.building-cta {
+    font-weight: 600;
+    color: white !important;
+}
+
+/* FORM PAGE - Dark Theme, NO hover animations */
+.form-page-section {
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+    padding: 100px 0 60px;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding-top: 40px;
+}
+
+.form-header h2 {
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -2px;
+}
+
+.form-header p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.ats-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 102, 255, 0.15);
+    border: 1px solid rgba(0, 102, 255, 0.3);
+    color: var(--accent-blue-light);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ats-icon {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* Form Cards - NO hover animations */
+.form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.form-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-card-title::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: var(--accent-blue);
+    border-radius: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* INPUTS - NO hover/focus animations, NO glow effects */
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Entry Blocks - NO hover animations */
+.entry-block {
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 2px dashed rgba(0, 102, 255, 0.4);
+    color: var(--accent-blue-light);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Buttons - NO hover animations */
+.btn-dark {
+    background: var(--accent-blue);
+    color: white;
+    padding: 16px 40px;
+    font-size: 15px;
+}
+
+.btn-outline-dark {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 16px 40px;
+    font-size: 15px;
+}
+
+/* Simple Footer */
+.footer {
+    background-color: var(--bg-primary);
+    padding: 40px;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copyright {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.social-links {
+    display: flex;
+    gap: 24px;
+}
+
+.social-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+/* Modals - Dark Theme, NO animations */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.active { display: flex; }
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 101;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.privacy-text {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+.privacy-text ul { margin: 16px 0 16px 24px; }
+.privacy-text li { margin-bottom: 10px; }
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.checkbox-container input { display: none; }
+
+.checkmark {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.checkbox-container input:checked + .checkmark {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.checkbox-container input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* Preview Modal */
+.preview-content { max-width: 800px; }
+
+.preview-container {
+    background: white;
+    color: #1a1a1a;
+    border-radius: 16px;
+    padding: 40px;
+    margin: 24px 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.preview-resume h1 {
+    font-size: 28px;
+    color: #0a0a0a;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+.preview-resume .contact-info {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--accent-blue);
+}
+
+.preview-resume .section { margin-bottom: 24px; }
+
+.preview-resume .section h3 {
+    font-size: 14px;
+    color: #0a0a0a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.preview-resume .item-title { font-weight: 700; color: #0a0a0a; font-size: 14px; }
+.preview-resume .item-subtitle { color: #666; font-size: 13px; }
+.preview-resume p { color: #444; font-size: 13px; line-height: 1.6; margin: 8px 0; }
+
+.skill-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+    color: #4c1d95;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+}
+
+.loading-overlay.active { display: flex; }
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 102, 255, 0.2);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-overlay p {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* SUCCESS PAGE - Hidden by default */
+.success-page-section {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    gap: 20px;
+    background: var(--bg-primary);
+}
+
+.success-page-section.active {
+    display: flex;
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 50px;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.3);
+    animation: successPop 0.6s ease;
+}
+
+@keyframes successPop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.success-page-section h2 {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: var(--text-primary);
+}
+
+.success-page-section > p:first-of-type {
+    font-size: 20px;
+    color: var(--accent-blue-light);
+    font-weight: 600;
+}
+
+.success-message {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 400px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar { padding: 16px 20px; }
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #0a0a0a;
+        flex-direction: column;
+        padding: 20px;
+        gap: 16px;
+        display: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-links.active { display: flex; }
+    .nav-links a { font-size: 14px; padding: 10px 0; }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+    }
+    .menu-toggle span {
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: 0.3s;
+    }
+    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .hero {
+        min-height: auto;
+        padding: 100px 20px 40px;
+    }
+
+    .hero-title { font-size: 50px; }
+    .hero-title .my { font-size: 30px; }
+
+    .hero-badges { flex-direction: column; gap: 16px; }
+
+    .india-spoke .section-title { font-size: 32px; }
+
+    .floating-cards {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 16px;
+        padding: 20px;
+        margin: 20px -20px 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .float-card {
+        position: relative;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        flex: 0 0 auto;
+        width: 200px;
+        min-width: 200px;
+        margin: 0;
+        animation: none;
+        font-size: 13px;
+        padding: 20px 24px;
+        opacity: 1;
+    }
+
+    .float-card:nth-child(1) { transform: rotate(-5deg) !important; }
+    .float-card:nth-child(2) { transform: rotate(4deg) !important; }
+    .float-card:nth-child(3) { transform: rotate(-3deg) !important; }
+    .float-card:nth-child(4) { transform: rotate(6deg) !important; }
+    .float-card:nth-child(5) { transform: rotate(-4deg) !important; }
+    .float-card:nth-child(6) { transform: rotate(3deg) !important; }
+    .float-card:nth-child(7) { transform: rotate(-6deg) !important; }
+    .float-card:nth-child(8) { transform: rotate(5deg) !important; }
+
+    .card-percent {
+        font-size: 28px;
+    }
+
+    .star-icon { display: none; }
+
+    .section-heading { font-size: 28px; }
+
+    .building-content { flex-direction: column; text-align: center; }
+    .building-title { font-size: 48px; }
+    .building-right { flex: 1; }
+
+    .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+
+    .form-container { padding: 0 20px; }
+    .form-header h2 { font-size: 36px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 24px; }
+
+    .modal-content { padding: 24px; }
+    .preview-container { padding: 24px; }
+}
+
+/* Swipe animation */
+.problem-card.swiping-left {
+    transform: translateX(-100%) rotate(-10deg);
+    opacity: 0;
+}
+
+.problem-card.swiping-right {
+    transform: translateX(100%) rotate(10deg);
+    opacity: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-logo" onclick="showPage('home')">
+        <div class="nav-logo-icon">R</div>
+        <span>ResumePulse</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <a href="#" onclick="scrollToSection('home-page', this); toggleMenu(); return false;">Home</a>
+        <a href="#" onclick="scrollToSection('how-it-works', this); toggleMenu(); return false;">How It Works</a>
+        <a href="#" onclick="scrollToSection('build', this); toggleMenu(); return false;">Build Resume</a>
+    </div>
+</nav>
+
+<!-- HOME PAGE -->
+<section id="home-page" class="page-section active">
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-text">
+            <span>ATS FRIENDLY RESUME BUILDER</span>
+            <span>GET HIRED FASTER</span>
+        </div>
+
+        <div class="hero-content">
+            <p class="hero-subtitle">BUILD PROFESSIONAL RESUMES THAT GET NOTICED</p>
+            <h1 class="hero-title">
+                <span class="fix">BUILD</span>
+                <span class="my">my</span>
+                <span class="itch">RESUME</span>
+            </h1>
+            <p class="hero-byline">ResumePulse</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="showPrivacyModal()">Build My Resume</button>
+            </div>
+        </div>
+
+        <div class="hero-badges">
+            <div class="badge">
+                <span class="badge-icon">✓</span>
+                <span>95% ATS PASS RATE</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">✓</span>
+                <span>10,000+ RESUMES BUILT</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">✓</span>
+                <span>4.9 USER RATING</span>
+            </div>
+        </div>
+
+        <!-- Floating Cards -->
+        <div class="floating-cards">
+            <div class="float-card card-1">
+                <span class="card-percent">95%</span>
+                <p>OF RESUMES PASS ATS SCREENING WITH OUR FORMAT</p>
+            </div>
+            <div class="float-card card-2">
+                <p>PROFESSIONAL TEMPLATES DESIGNED BY HR EXPERTS</p>
+            </div>
+            <div class="float-card card-3">
+                <span class="card-percent">10k+</span>
+                <p>PROFESSIONALS HAVE LANDED THEIR DREAM JOB</p>
+            </div>
+            <div class="float-card card-4">
+                <span class="card-percent">5 MIN</span>
+                <p>IS ALL IT TAKES TO CREATE YOUR PERFECT RESUME</p>
+            </div>
+            <div class="float-card card-5">
+                <span class="card-percent">100%</span>
+                <p>FREE TO USE WITH NO HIDDEN FEES</p>
+            </div>
+            <div class="float-card card-6">
+                <p>EXPORT TO PDF INSTANTLY AFTER COMPLETION</p>
+            </div>
+            <div class="float-card card-7">
+                <span class="card-percent">24/7</span>
+                <p>SUPPORT AVAILABLE FOR ALL USERS</p>
+            </div>
+            <div class="float-card card-8">
+                <span class="card-percent">50+</span>
+                <p>INDUSTRY-SPECIFIC TEMPLATES AVAILABLE</p>
+            </div>
+            <div class="star-icon">✦</div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="top-problems" id="how-it-works">
+        <h2 class="section-heading">HOW IT WORKS</h2>
+        <div class="problem-card-stack">
+            <div class="problem-cards-container" id="steps-container">
+                <div class="problem-card active" data-index="0">
+                    <span class="problem-category">Step 1</span>
+                    <h3>Fill in your details with our easy-to-use form</h3>
+                </div>
+                <div class="problem-card" data-index="1">
+                    <span class="problem-category">Step 2</span>
+                    <h3>Preview your ATS-friendly resume in real-time</h3>
+                </div>
+                <div class="problem-card" data-index="2">
+                    <span class="problem-category">Step 3</span>
+                    <h3>Submit and get your resume reviewed by experts!</h3>
+                </div>
+            </div>
+            <div class="swipe-hint">
+                <span class="swipe-arrow">←</span>
+                <span>Swipe</span>
+                <span class="swipe-arrow">→</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA Section -->
+    <section class="start-building" id="build">
+        <div class="building-content">
+            <div class="building-left">
+                <h2 class="building-title">START<br>BUILDING<br>NOW</h2>
+                <div class="building-logo" style="margin-top: 30px;">
+                    <h3 style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: white;">BUILD<span style="font-size: 20px; font-weight: 400; font-style: italic; margin: 0 6px;">my</span>RESUME</h3>
+                    <p style="font-size: 14px; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 6px;">by ResumePulse</p>
+                </div>
+            </div>
+            <div class="building-right">
+                <p>Your dream job is waiting. Create a professional, ATS-friendly resume that stands out from the crowd and gets you noticed by recruiters.</p>
+                <p class="building-cta">Ready to land your next role? Start building now.</p>
+                <button class="btn btn-primary" onclick="showPrivacyModal()" style="margin-top: 20px;">Build My Resume</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simple Footer -->
+    <footer class="footer">
+        <div class="footer-bottom" style="border-top: none; padding-top: 20px;">
+            <p class="copyright">© 2026 ResumePulse</p>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<!-- FORM PAGE - Dark Theme -->
+<section id="form-page" class="page-section form-page-section">
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Create Your Resume</h2>
+            <p>Fill in your details below. All fields marked with * are required.</p>
+            <div class="ats-badge">
+                <span class="ats-icon">✓</span>
+                ATS Friendly Format
+            </div>
+        </div>
+
+        <form id="resume-form">
+            <!-- Personal Information -->
+            <div class="form-card">
+                <h3 class="form-card-title">Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="full-name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Professional Email *</label>
+                        <input type="email" id="email" required placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" required placeholder="+1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>LinkedIn Profile</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/johndoe">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="form-card">
+                <h3 class="form-card-title">Education</h3>
+                <div id="education-container">
+                    <div class="entry-block" data-type="education">
+                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Institution *</label>
+                                <input type="text" class="edu-institution" required placeholder="University Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Degree *</label>
+                                <input type="text" class="edu-degree" required placeholder="Bachelor of Science">
+                            </div>
+                            <div class="form-group">
+                                <label>Field of Study</label>
+                                <input type="text" class="edu-field" placeholder="Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label>Year of Completion</label>
+                                <input type="text" class="edu-year" placeholder="2024">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addEntry('education')">+ Add Education</button>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-card">
+                <h3 class="form-card-title">Technical Skills</h3>
+                <div class="form-group full-width">
+                    <label>Enter your skills (comma separated) *</label>
+                    <textarea id="skills" required rows="3" placeholder="JavaScript, Python, React, Node.js, SQL, AWS..."></textarea>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="form-card">
+                <h3 class="form-card-title">Projects</h3>
+                <div id="projects-container">
+                    <div class="entry-block" data-type="project">
+                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-group full-width">
+                            <label>Project Name *</label>
+                            <input type="text" class="proj-name" required placeholder="E-commerce Platform">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description *</label>
+                            <textarea class="proj-desc" required rows="2" placeholder="Brief description of the project..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Project Link (GitHub/Demo)</label>
+                            <input type="url" class="proj-link" placeholder="https://github.com/username/project">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addEntry('project')">+ Add Project</button>
+            </div>
+
+            <!-- Experience -->
+            <div class="form-card">
+                <h3 class="form-card-title">Experience (Optional)</h3>
+                <div id="experience-container">
+                    <div class="entry-block" data-type="experience">
+                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Company/Organization</label>
+                                <input type="text" class="exp-company" placeholder="Company Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Position/Role</label>
+                                <input type="text" class="exp-position" placeholder="Software Developer">
+                            </div>
+                            <div class="form-group">
+                                <label>Duration</label>
+                                <input type="text" class="exp-duration" placeholder="Jan 2023 - Present">
+                            </div>
+                        </div>
+                        <div class="form-group full-width" style="margin-top: 16px;">
+                            <label>Description</label>
+                            <textarea class="exp-desc" rows="2" placeholder="Describe your responsibilities and achievements..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addEntry('experience')">+ Add Experience</button>
+            </div>
+
+            <!-- Achievements -->
+            <div class="form-card">
+                <h3 class="form-card-title">Achievements (Optional)</h3>
+                <div class="form-group full-width">
+                    <label>Your Achievements</label>
+                    <textarea id="achievements" rows="4" placeholder="- Dean's List, Fall 2023
+- Winner of Hackathon 2024
+- Published research paper..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline-dark" onclick="showPage('home')">Back to Home</button>
+                <button type="button" class="btn btn-dark" onclick="previewResume()">Preview Resume</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- SUCCESS PAGE - Only shows after submission -->
+<section id="success-page" class="page-section success-page-section">
+    <div class="success-icon">✓</div>
+    <h2>Success!</h2>
+    <p>Your resume has been submitted successfully</p>
+    <p class="success-message">Our team will review your resume and get back to you shortly.</p>
+    <button class="btn btn-primary" onclick="showPage('home')">Back to Home</button>
+</section>
+
+<!-- Privacy Modal -->
+<div id="privacy-modal" class="modal">
+    <div class="modal-overlay" onclick="hidePrivacyModal()"></div>
+    <div class="modal-content">
+        <h2>Privacy Policy</h2>
+        <p class="modal-subtitle">Please review our terms before continuing</p>
+        <div class="privacy-text">
+            <p>Welcome to ResumePulse. Before you proceed, please review our privacy policy:</p>
+            <ul>
+                <li>We collect your personal information solely for the purpose of creating your resume</li>
+                <li>Your data is stored securely in our encrypted database</li>
+                <li>We do not share your information with third parties for marketing purposes</li>
+                <li>Your information is only accessible to authorized administrators</li>
+                <li>You have the right to request deletion of your data at any time</li>
+                <li>We use industry-standard security measures to protect your information</li>
+            </ul>
+            <p>By accepting, you agree to our terms of service and privacy policy.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <label class="checkbox-container" style="justify-content: center;">
+                <input type="checkbox" id="privacy-checkbox" onchange="togglePrivacyButton()">
+                <span class="checkmark"></span>
+                I have read and agree to the Privacy Policy
+            </label>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hidePrivacyModal()">Decline</button>
+                <button class="btn btn-primary" id="accept-privacy" onclick="acceptPrivacy()" disabled>Accept & Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal">
+    <div class="modal-overlay" onclick="hidePreviewModal()"></div>
+    <div class="modal-content preview-content">
+        <h2>Preview Your Resume</h2>
+        <p class="modal-subtitle">Review your information before submitting</p>
+        <div id="preview-container" class="preview-container"></div>
+        <div class="modal-buttons">
+            <button class="btn btn-outline-dark" onclick="hidePreviewModal()">Edit Resume</button>
+            <button class="btn btn-dark" onclick="submitResume()">Confirm & Submit</button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p>Submitting your resume...</p>
+</div>
+
+<script>
+// Page Navigation
+function showPage(pageName) {
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageName + '-page').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Navbar Active State and Scroll
+function setActiveNav(clickedLink) {
+    const allLinks = document.querySelectorAll('.nav-links a');
+    allLinks.forEach(link => {
+        if (link === clickedLink) {
+            link.classList.add('active');
+            link.classList.remove('dull');
+        } else {
+            link.classList.remove('active');
+            link.classList.add('dull');
+        }
+    });
+}
+
+function scrollToSection(sectionId, clickedLink) {
+    setActiveNav(clickedLink);
+    if (sectionId === 'home-page') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const navbarHeight = 80;
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+        window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+    }
+}
+
+// Mobile Menu Toggle
+function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const menuToggle = document.querySelector('.menu-toggle');
+    navLinks.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+}
+
+// Modal Functions
+function showPrivacyModal() {
+    document.getElementById('privacy-modal').classList.add('active');
+}
+
+function hidePrivacyModal() {
+    document.getElementById('privacy-modal').classList.remove('active');
+}
+
+function acceptPrivacy() {
+    hidePrivacyModal();
+    showPage('form');
+}
+
+function togglePrivacyButton() {
+    document.getElementById('accept-privacy').disabled = !document.getElementById('privacy-checkbox').checked;
+}
+
+function showPreviewModal() {
+    document.getElementById('preview-modal').classList.add('active');
+}
+
+function hidePreviewModal() {
+    document.getElementById('preview-modal').classList.remove('active');
+}
+
+function showLoading() {
+    document.getElementById('loading-overlay').classList.add('active');
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').classList.remove('active');
+}
+
+// Close modals on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.getElementById('privacy-modal').classList.remove('active');
+        document.getElementById('preview-modal').classList.remove('active');
+    }
+});
+
+// Card Swipe Functionality
+function initCardSwipe() {
+    const cardsContainer = document.getElementById('steps-container');
+    if (!cardsContainer) return;
+
+    const cards = cardsContainer.querySelectorAll('.problem-card');
+    let currentIndex = 0;
+    let isAnimating = false;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    cardsContainer.addEventListener('mousedown', handleStart);
+    cardsContainer.addEventListener('touchstart', handleStart, { passive: true });
+    cardsContainer.addEventListener('mousemove', handleMove);
+    cardsContainer.addEventListener('touchmove', handleMove, { passive: true });
+    cardsContainer.addEventListener('mouseup', handleEnd);
+    cardsContainer.addEventListener('mouseleave', handleEnd);
+    cardsContainer.addEventListener('touchend', handleEnd);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') swipeCard('left');
+        else if (e.key === 'ArrowRight') swipeCard('right');
+    });
+
+    function handleStart(e) {
+        if (isAnimating) return;
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    }
+
+    function handleMove(e) {
+        if (!isDragging || isAnimating) return;
+        currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const diff = currentX - startX;
+        const activeCard = cards[currentIndex];
+        if (activeCard) activeCard.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
+    }
+
+    function handleEnd(e) {
+        if (!isDragging || isAnimating) return;
+        isDragging = false;
+        const diff = currentX - startX;
+        if (Math.abs(diff) > 100) swipeCard(diff > 0 ? 'right' : 'left');
+        else {
+            const activeCard = cards[currentIndex];
+            if (activeCard) {
+                activeCard.style.transform = '';
+                activeCard.style.transition = 'transform 0.3s ease';
+                setTimeout(() => activeCard.style.transition = '', 300);
+            }
+        }
+    }
+
+    function swipeCard(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+        const activeCard = cards[currentIndex];
+        if (!activeCard) { isAnimating = false; return; }
+
+        activeCard.classList.add(direction === 'left' ? 'swiping-left' : 'swiping-right');
+
+        setTimeout(() => {
+            activeCard.classList.remove('active', 'swiping-left', 'swiping-right');
+            activeCard.style.transform = '';
+            activeCard.style.opacity = '0.5';
+
+            currentIndex = (currentIndex + 1) % cards.length;
+
+            cards.forEach((card, index) => {
+                card.style.zIndex = index === currentIndex ? 10 : 0;
+            });
+
+            const nextCard = cards[currentIndex];
+            if (nextCard) {
+                nextCard.classList.add('active');
+                nextCard.style.opacity = '1';
+                nextCard.style.transform = 'scale(1) translateY(0)';
+            }
+
+            isAnimating = false;
+        }, 300);
+    }
+}
+
+// Initialize swipe on load
+initCardSwipe();
+
+// Add Entry Function
+function addEntry(type) {
+    const container = document.getElementById(type + '-container');
+    const template = container.querySelector('.entry-block').cloneNode(true);
+    template.querySelectorAll('input, textarea').forEach(f => f.value = '');
+
+    // Add animation
+    template.style.opacity = '0';
+    template.style.transform = 'translateY(-20px)';
+    container.appendChild(template);
+
+    requestAnimationFrame(() => {
+        template.style.transition = 'all 0.4s ease';
+        template.style.opacity = '1';
+        template.style.transform = 'translateY(0)';
+    });
+}
+
+// Remove Entry Function
+function removeEntry(btn) {
+    const block = btn.closest('.entry-block');
+    const container = block.parentElement;
+
+    if (container.querySelectorAll('.entry-block').length > 1) {
+        block.style.transition = 'all 0.3s ease';
+        block.style.opacity = '0';
+        block.style.transform = 'translateX(-50px)';
+        setTimeout(() => block.remove(), 300);
+    } else {
+        // Shake animation if trying to remove last entry
+        block.style.animation = 'shake 0.5s ease';
+        setTimeout(() => block.style.animation = '', 500);
+    }
+}
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(shakeStyle);
+
+// Collect Form Data
+function collectFormData() {
+    const data = {
+        personal: {
+            fullName: document.getElementById('full-name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            linkedin: document.getElementById('linkedin').value.trim()
+        },
+        education: [],
+        skills: document.getElementById('skills').value.trim(),
+        projects: [],
+        experience: [],
+        achievements: document.getElementById('achievements').value.trim()
+    };
+
+    document.querySelectorAll('#education-container .entry-block').forEach(block => {
+        const edu = {
+            institution: block.querySelector('.edu-institution').value.trim(),
+            degree: block.querySelector('.edu-degree').value.trim(),
+            field: block.querySelector('.edu-field').value.trim(),
+            year: block.querySelector('.edu-year').value.trim()
+        };
+        if (edu.institution && edu.degree) data.education.push(edu);
+    });
+
+    document.querySelectorAll('#projects-container .entry-block').forEach(block => {
+        const proj = {
+            name: block.querySelector('.proj-name').value.trim(),
+            description: block.querySelector('.proj-desc').value.trim(),
+            link: block.querySelector('.proj-link').value.trim()
+        };
+        if (proj.name && proj.description) data.projects.push(proj);
+    });
+
+    document.querySelectorAll('#experience-container .entry-block').forEach(block => {
+        const exp = {
+            company: block.querySelector('.exp-company').value.trim(),
+            position: block.querySelector('.exp-position').value.trim(),
+            duration: block.querySelector('.exp-duration').value.trim(),
+            description: block.querySelector('.exp-desc').value.trim()
+        };
+        if (exp.company || exp.position) data.experience.push(exp);
+    });
+
+    return data;
+}
+
+// Validate Form
+function validateForm() {
+    const requiredFields = document.querySelectorAll('#resume-form [required]');
+    let isValid = true;
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.style.borderColor = '#ef4444';
+            isValid = false;
+        } else {
+            field.style.borderColor = '';
+        }
+    });
+    return isValid;
+}
+
+// Preview Resume
+function previewResume() {
+    if (!validateForm()) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    const data = collectFormData();
+    const container = document.getElementById('preview-container');
+    const skillsList = data.skills.split(',').map(s => s.trim()).filter(s => s);
+    const achievementsList = data.achievements.split('\n').map(a => a.trim()).filter(a => a);
+
+    let html = `<div class="preview-resume"><h1>${escapeHtml(data.personal.fullName)}</h1>`;
+    html += `<div class="contact-info">${data.personal.email} | ${data.personal.phone}`;
+    if (data.personal.linkedin) html += ` | <a href="${escapeHtml(data.personal.linkedin)}">LinkedIn</a>`;
+    html += `</div>`;
+
+    if (data.education.length > 0) {
+        html += `<div class="section"><h3>Education</h3>`;
+        data.education.forEach(edu => {
+            html += `<div><div class="item-title">${escapeHtml(edu.institution)}</div>`;
+            html += `<div class="item-subtitle">${escapeHtml(edu.degree)}${edu.field ? ` in ${escapeHtml(edu.field)}` : ''}${edu.year ? ` - ${escapeHtml(edu.year)}` : ''}</div></div>`;
+        });
+        html += `</div>`;
+    }
+
+    if (skillsList.length > 0) {
+        html += `<div class="section"><h3>Technical Skills</h3><div>${skillsList.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join('')}</div></div>`;
+    }
+
+    if (data.projects.length > 0) {
+        html += `<div class="section"><h3>Projects</h3>`;
+        data.projects.forEach(proj => {
+            html += `<div><div class="item-title">${escapeHtml(proj.name)}</div>`;
+            html += `<p>${escapeHtml(proj.description)}</p>`;
+            if (proj.link) html += `<a href="${escapeHtml(proj.link)}">View Project</a>`;
+            html += `</div>`;
+        });
+        html += `</div>`;
+    }
+
+    if (data.experience.length > 0) {
+        html += `<div class="section"><h3>Experience</h3>`;
+        data.experience.forEach(exp => {
+            html += `<div><div class="item-title">${escapeHtml(exp.position)}</div>`;
+            html += `<div class="item-subtitle">${escapeHtml(exp.company)}${exp.duration ? ` | ${escapeHtml(exp.duration)}` : ''}</div>`;
+            if (exp.description) html += `<p>${escapeHtml(exp.description)}</p>`;
+            html += `</div>`;
+        });
+        html += `</div>`;
+    }
+
+    if (achievementsList.length > 0) {
+        html += `<div class="section"><h3>Achievements</h3><ul>${achievementsList.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul></div>`;
+    }
+
+    html += `</div>`;
+    container.innerHTML = html;
+    showPreviewModal();
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Submit Resume
+async function submitResume() {
+    hidePreviewModal();
+    showLoading();
+
+    try {
+        const data = collectFormData();
+        const payload = {
+            name: data.personal.fullName,
+            email: data.personal.email,
+            phone: data.personal.phone,
+            linkedin: data.personal.linkedin,
+            education: JSON.stringify(data.education),
+            skills: data.skills,
+            projects: JSON.stringify(data.projects),
+            experience: JSON.stringify(data.experience),
+            achievements: data.achievements,
+            timestamp: new Date().toISOString()
+        };
+
+        const response = await fetch('http://localhost:3000/api/submit-resume', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Failed to submit');
+
+        hideLoading();
+        showPage('success');
+        document.getElementById('resume-form').reset();
+    } catch (error) {
+        hideLoading();
+        alert('Error submitting: ' + error.message + '\n\nMake sure server is running on http://localhost:3000');
+    }
+}
+
+// Navbar scroll effect
+// Navbar stays black, no scroll effect needed
+</script>
+
+</body>
+</html>
