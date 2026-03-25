@@ -1,28 +1,33 @@
-<svg width="160" height="180" viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <defs>
-    <linearGradient id="gradText" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#6366f1"></stop>
-      <stop offset="100%" stop-color="#06b6d4"></stop>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066FF"/>
+      <stop offset="100%" style="stop-color:#00D4FF"/>
+    </linearGradient>
+    <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00D4FF"/>
+      <stop offset="100%" style="stop-color:#0066FF"/>
     </linearGradient>
   </defs>
 
-  <!-- Square Background -->
-  <rect x="10" y="10" width="140" height="160" rx="24" fill="#0f172a"></rect>
+  <!-- Background Square with rounded corners -->
+  <rect x="20" y="20" width="160" height="160" rx="32" fill="url(#logoGradient)"/>
 
-  <!-- Resume Icon (Document) -->
-  <rect x="45" y="30" width="70" height="70" rx="10" fill="white"></rect>
-  
-  <!-- Folded Corner -->
-  <polygon points="95,30 115,30 115,50" fill="#e5e7eb"></polygon>
+  <!-- Document/Resume Icon -->
+  <rect x="55" y="45" width="90" height="110" rx="8" fill="white"/>
 
-  <!-- Text Lines (resume feel) -->
-  <rect x="55" y="55" width="40" height="6" rx="3" fill="#cbd5f5"></rect>
-  <rect x="55" y="68" width="50" height="6" rx="3" fill="#cbd5f5"></rect>
-  <rect x="55" y="81" width="35" height="6" rx="3" fill="#cbd5f5"></rect>
+  <!-- Folded corner -->
+  <polygon points="130,45 145,45 145,60" fill="#E0E7FF"/>
 
-  <!-- Brand Name -->
-  <text x="50%" y="135" text-anchor="middle" font-family="Poppins, Montserrat, sans-serif" font-size="18" font-weight="600">
-    <tspan fill="#ffffff">Resume</tspan>
-    <tspan x="50%" dy="20" fill="url(#gradText)">Pulse</tspan>
-  </text>
+  <!-- Text lines on resume -->
+  <rect x="70" y="75" width="50" height="8" rx="4" fill="#CBD5E1"/>
+  <rect x="70" y="92" width="60" height="8" rx="4" fill="#CBD5E1"/>
+  <rect x="70" y="109" width="40" height="8" rx="4" fill="#CBD5E1"/>
+
+  <!-- Checkmark (success/ATS friendly) -->
+  <circle cx="125" cy="125" r="20" fill="url(#pulseGradient)"/>
+  <path d="M115 125 L122 132 L135 118" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Pulse wave effect at bottom -->
+  <path d="M60 145 Q75 135, 90 145 T120 145 T150 145" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
 </svg>
