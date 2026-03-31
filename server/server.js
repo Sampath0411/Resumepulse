@@ -5,12 +5,21 @@ const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const xss = require('xss');
+const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// In-memory storage for testing (resets on server restart)
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
+
+// Table name for resume submissions
+const SUBMISSIONS_TABLE = 'resume_submissions';
+
+// In-memory storage fallback (if Supabase not configured)
 const resumeSubmissions = [];
 
 // Security Middleware - Enhanced Helmet configuration
@@ -106,6 +115,14 @@ app.use((req, res, next) => {
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('X-DNS-Prefetch-Control', 'off');
     next();
+});
+
+// Serve static files from root directory
+app.use(express.static('./'));
+
+// Serve index.html for root route
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: './' });
 });
 
 // Email Transporter Configuration
@@ -365,16 +382,42 @@ app.get('/api/health', (req, res) => {
 });
 
 // Get all submissions (for testing/verification)
-app.get('/api/submissions', (req, res) => {
-    res.json({
-        count: resumeSubmissions.length,
-        submissions: resumeSubmissions.map((sub, index) => ({
-            id: index + 1,
-            name: sub.name,
-            email: sub.email,
-            timestamp: sub.timestamp
-        }))
-    });
+app.get('/api/submissions', async (req, res) => {
+    try {
+        if (supabase) {
+            // Use Supabase
+            const { data, error } = await supabase
+                .from(SUBMISSIONS_TABLE)
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            res.json({
+                count: data.length,
+                submissions: data.map(sub => ({
+                    id: sub.id,
+                    name: sub.name,
+                    email: sub.email,
+                    timestamp: sub.created_at
+                }))
+            });
+        } else {
+            // Fallback to in-memory
+            res.json({
+                count: resumeSubmissions.length,
+                submissions: resumeSubmissions.map((sub, index) => ({
+                    id: index + 1,
+                    name: sub.name,
+                    email: sub.email,
+                    timestamp: sub.timestamp
+                }))
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching submissions:', error);
+        res.status(500).json({ error: 'Failed to fetch submissions' });
+    }
 });
 
 app.post('/api/submit-resume', validateResume, async (req, res) => {
