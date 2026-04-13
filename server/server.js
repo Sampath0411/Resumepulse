@@ -6,6 +6,9 @@ const { body, validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const xss = require('xss');
 const { createClient } = require('@supabase/supabase-js');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -22,6 +25,12 @@ const SUBMISSIONS_TABLE = 'resume_submissions';
 // In-memory storage fallback (if Supabase not configured)
 const resumeSubmissions = [];
 
+// Generate CSP nonce per request
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomBytes(16).toString('base64');
+    next();
+});
+
 // Security Middleware - Enhanced Helmet configuration
 app.use(helmet({
     contentSecurityPolicy: {
@@ -29,7 +38,7 @@ app.use(helmet({
             defaultSrc: ["'self'"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
-            scriptSrc: ["'self'"],
+            scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
             imgSrc: ["'self'", "data:", "https:"],
             connectSrc: ["'self'"],
             frameSrc: ["'none'"],
@@ -117,13 +126,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Serve index.html for root route with CSP nonce injected (must be before static)
+app.get('/', (req, res) => {
+    const indexPath = path.join(__dirname, '..', 'index.html');
+    let html = fs.readFileSync(indexPath, 'utf8');
+    html = html.replace('<script>', `<script nonce="${res.locals.nonce}">`);
+    res.send(html);
+});
+
 // Serve static files from root directory
 app.use(express.static('./'));
-
-// Serve index.html for root route
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: './' });
-});
 
 // Email Transporter Configuration
 const transporter = nodemailer.createTransport({

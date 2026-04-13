@@ -478,7 +478,6 @@ body {
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: grab;
     display: flex;
     flex-direction: column;
@@ -571,68 +570,9 @@ body {
 
 .swipe-arrow { font-size: 18px; opacity: 0.5; }
 
-/* CTA Section */
-.start-building {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    position: relative;
-    padding: 120px 40px;
-    overflow: hidden;
-}
-
-.start-building::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        radial-gradient(circle at 20% 80%, rgba(0,102,255,0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(138,43,226,0.3) 0%, transparent 50%);
-    animation: pulse 8s ease-in-out infinite;
-}
-
 @keyframes pulse {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 1; }
-}
-
-.building-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 60px;
-    position: relative;
-    z-index: 2;
-}
-
-.building-left { flex: 0 0 auto; }
-
-.building-title {
-    font-size: 80px;
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -4px;
-    background: linear-gradient(135deg, #fff 0%, #a0c4ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.building-right { flex: 0 0 400px; }
-
-.building-right p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 20px;
-}
-
-.building-cta {
-    font-weight: 600;
-    color: white !important;
 }
 
 /* FORM PAGE - Dark Theme, NO hover animations */
@@ -1209,10 +1149,6 @@ body {
 
     .section-heading { font-size: 28px; }
 
-    .building-content { flex-direction: column; text-align: center; }
-    .building-title { font-size: 48px; }
-    .building-right { flex: 1; }
-
     .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
 
     .form-container { padding: 0 20px; }
@@ -1234,25 +1170,607 @@ body {
     transform: translateX(100%) rotate(10deg);
     opacity: 0;
 }
+
+/* === WHAT THE DUCK IS ATS === */
+.ats-explainer {
+    background-color: #ffffff;
+    color: #0a0a0a;
+    padding: 100px 40px;
+    overflow: hidden;
+}
+
+.ats-explainer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.ats-explainer-heading {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.ats-explainer-heading .duck {
+    display: inline-block;
+    font-size: 52px;
+    transform: translateY(6px);
+}
+
+.ats-explainer-subheading {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 60px;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.ats-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 24px;
+    align-items: stretch;
+    margin-bottom: 60px;
+}
+
+.ats-step {
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ats-step-num {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.ats-step-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.ats-step-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.ats-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #ccc;
+}
+
+.ats-verdict {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 20px;
+}
+
+.ats-verdict-card {
+    border-radius: 20px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ats-verdict-card.pass {
+    background: linear-gradient(135deg, #ecFDF5 0%, #d1fae5 100%);
+    border: 2px solid #10b981;
+}
+
+.ats-verdict-card.fail {
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border: 2px solid #ef4444;
+}
+
+.ats-verdict-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.ats-verdict-label {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.ats-verdict-card.pass .ats-verdict-label { color: #059669; }
+.ats-verdict-card.fail .ats-verdict-label { color: #dc2626; }
+
+.ats-verdict-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.ats-verdict-desc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.ats-verdict-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ats-verdict-list li {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #555;
+}
+
+.ats-verdict-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ats-verdict-card.pass .ats-verdict-list li::before { background: #10b981; }
+.ats-verdict-card.fail .ats-verdict-list li::before { background: #ef4444; }
+
+/* === WHY CHOOSE US / TESTIMONIALS === */
+.why-choose {
+    background-color: var(--bg-primary);
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.why-choose::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,102,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.why-choose-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.why-choose-heading {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.why-choose-subheading {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.resume-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.compare-card {
+    border-radius: 24px;
+    padding: 40px 32px;
+    position: relative;
+}
+
+.compare-card.ours {
+    background: linear-gradient(135deg, rgba(0,102,255,0.12) 0%, rgba(59,130,246,0.06) 100%);
+    border: 1px solid rgba(0,102,255,0.25);
+}
+
+.compare-card.others {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+}
+
+.compare-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+}
+
+.compare-card.ours .compare-tag {
+    background: rgba(0,102,255,0.2);
+    color: var(--accent-blue-light);
+}
+
+.compare-card.others .compare-tag {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+}
+
+.compare-resume-preview {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.compare-resume-preview .rp-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.compare-resume-preview .rp-title {
+    font-size: 12px;
+    color: var(--accent-blue-light);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.compare-resume-preview .rp-section {
+    margin-bottom: 10px;
+}
+
+.compare-resume-preview .rp-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.compare-resume-preview .rp-bullet {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.compare-resume-preview .rp-bullet::before {
+    content: '•';
+    flex-shrink: 0;
+}
+
+.compare-card.others .compare-resume-preview .rp-name {
+    color: #888;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.compare-card.others .compare-resume-preview .rp-section-title {
+    color: #666;
+}
+
+.compare-card.others .compare-resume-preview .rp-bullet {
+    color: #555;
+    opacity: 0.7;
+}
+
+.compare-score-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.compare-score-fill {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.compare-card.ours .compare-score-fill {
+    background: linear-gradient(90deg, #0066FF, #3B82F6);
+    width: 92%;
+}
+
+.compare-card.others .compare-score-fill {
+    background: #ef4444;
+    width: 34%;
+}
+
+.compare-score-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.compare-score-label .score-num {
+    font-weight: 800;
+}
+
+.compare-card.ours .score-num { color: var(--accent-blue-light); }
+.compare-card.others .score-num { color: #ef4444; }
+
+.compare-features {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.compare-features li {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+}
+
+.compare-features li .feat-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.compare-card.ours .feat-icon {
+    background: rgba(0,102,255,0.15);
+    color: var(--accent-blue-light);
+}
+
+.compare-card.others .feat-icon {
+    background: rgba(239,68,68,0.1);
+    color: #ef4444;
+}
+
+/* Testimonial cards */
+.testimonials-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+}
+
+.testimonial-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.testimonial-stars {
+    display: flex;
+    gap: 2px;
+    font-size: 16px;
+    color: #f59e0b;
+}
+
+.testimonial-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    flex: 1;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.testimonial-card:nth-child(1) .testimonial-avatar { background: rgba(0,102,255,0.15); color: var(--accent-blue-light); }
+.testimonial-card:nth-child(2) .testimonial-avatar { background: rgba(139,92,246,0.15); color: #a78bfa; }
+.testimonial-card:nth-child(3) .testimonial-avatar { background: rgba(16,185,129,0.15); color: #34d399; }
+
+.testimonial-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.testimonial-role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* === FAQ SECTION === */
+.faq-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(0,102,255,0.25) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(138,43,226,0.25) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.faq-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.faq-heading {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-align: center;
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, #fff 0%, #a0c4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 28px 28px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.faq-item.active {
+    border-color: rgba(0,102,255,0.4);
+    background: rgba(0,102,255,0.06);
+}
+
+.faq-question {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.faq-toggle {
+    font-size: 22px;
+    color: var(--accent-blue-light);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.faq-item.active .faq-toggle {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, margin-top 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    margin-top: 16px;
+    opacity: 1;
+}
+
+/* Responsive for new sections */
+@media (max-width: 768px) {
+    .ats-explainer { padding: 60px 20px; }
+    .ats-explainer-heading { font-size: 32px; }
+    .ats-explainer-heading .duck { font-size: 34px; }
+    .ats-flow {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .ats-arrow { transform: rotate(90deg); font-size: 20px; padding: 4px 0; }
+    .ats-verdict { grid-template-columns: 1fr; }
+
+    .why-choose { padding: 60px 20px; }
+    .why-choose-heading { font-size: 32px; }
+    .resume-compare { grid-template-columns: 1fr; }
+    .testimonials-row { grid-template-columns: 1fr; }
+
+    .faq-section { padding: 60px 20px; }
+    .faq-heading { font-size: 32px; }
+    .faq-item { padding: 24px 20px; }
+    .faq-question { font-size: 15px; }
+    .faq-answer { font-size: 13px; }
+}
 </style>
 </head>
 <body>
 
 <!-- Navigation -->
 <nav class="navbar">
-    <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo" id="nav-logo">
         <img src="logo.svg" alt="ResumePulse Logo" class="nav-logo-img">
         <span>ResumePulse</span>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">
+    <div class="menu-toggle" id="menu-toggle">
         <span></span>
         <span></span>
         <span></span>
     </div>
     <div class="nav-links" id="navLinks">
-        <a href="#" onclick="scrollToSection('home-page', this); toggleMenu(); return false;">Home</a>
-        <a href="#" onclick="scrollToSection('how-it-works', this); toggleMenu(); return false;">How It Works</a>
-        <a href="#" onclick="scrollToSection('build', this); toggleMenu(); return false;">Build Resume</a>
+        <a href="#" id="nav-home">Home</a>
+        <a href="#" id="nav-how">How It Works</a>
+        <a href="#" id="nav-build">Build Resume</a>
     </div>
 </nav>
 
@@ -1275,7 +1793,7 @@ body {
             </h1>
             <p class="hero-byline">ResumePulse</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="showPrivacyModal()">Build My Resume</button>
+                <button class="btn btn-primary" id="hero-build-btn">Build My Resume</button>
             </div>
         </div>
 
@@ -1356,21 +1874,203 @@ body {
         </div>
     </section>
 
+    <!-- What the Duck is ATS? -->
+    <section class="ats-explainer" id="ats-explainer">
+        <div class="ats-explainer-inner">
+            <h2 class="ats-explainer-heading">What the <span class="duck">&#x1F986;</span> is ATS?</h2>
+            <p class="ats-explainer-subheading">Most resumes never reach a human. Here's why — and how ResumePulse fixes it.</p>
 
-    <!-- CTA Section -->
-    <section class="start-building" id="build">
-        <div class="building-content">
-            <div class="building-left">
-                <h2 class="building-title">START<br>BUILDING<br>NOW</h2>
-                <div class="building-logo" style="margin-top: 30px;">
-                    <h3 style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: white;">BUILD<span style="font-size: 20px; font-weight: 400; font-style: italic; margin: 0 6px;">my</span>RESUME</h3>
-                    <p style="font-size: 14px; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 6px;">by ResumePulse</p>
+            <div class="ats-flow">
+                <div class="ats-step">
+                    <span class="ats-step-num">1</span>
+                    <div class="ats-step-title">You Apply</div>
+                    <div class="ats-step-desc">You hit "Submit" and your resume lands in a company's database — but not with a human yet.</div>
+                </div>
+                <div class="ats-arrow">&#8594;</div>
+                <div class="ats-step">
+                    <span class="ats-step-num">2</span>
+                    <div class="ats-step-title">ATS Scans It</div>
+                    <div class="ats-step-desc">An Applicant Tracking System (ATS) parses your resume for keywords, formatting, and structure. Fancy designs? Rejected.</div>
+                </div>
+                <div class="ats-arrow">&#8594;</div>
+                <div class="ats-step">
+                    <span class="ats-step-num">3</span>
+                    <div class="ats-step-title">Human Sees It (Maybe)</div>
+                    <div class="ats-step-desc">Only resumes scoring above the threshold reach a recruiter. 75% never do. That's the game.</div>
                 </div>
             </div>
-            <div class="building-right">
-                <p>Your dream job is waiting. Create a professional, ATS-friendly resume that stands out from the crowd and gets you noticed by recruiters.</p>
-                <p class="building-cta">Ready to land your next role? Start building now.</p>
-                <button class="btn btn-primary" onclick="showPrivacyModal()" style="margin-top: 20px;">Build My Resume</button>
+
+            <div class="ats-verdict">
+                <div class="ats-verdict-card pass">
+                    <div class="ats-verdict-icon">&#x2705;</div>
+                    <div class="ats-verdict-label">ATS Friendly</div>
+                    <div class="ats-verdict-title">ResumePulse Format</div>
+                    <div class="ats-verdict-desc">Clean structure, parseable headings, keyword-optimized sections. Built to score 90%+ on every major ATS.</div>
+                    <ul class="ats-verdict-list">
+                        <li>Simple, scannable section headers</li>
+                        <li>Standard fonts that ATS reads perfectly</li>
+                        <li>Keyword-rich content blocks</li>
+                        <li>No tables, columns, or graphics that break parsing</li>
+                    </ul>
+                </div>
+                <div class="ats-verdict-card fail">
+                    <div class="ats-verdict-icon">&#x274C;</div>
+                    <div class="ats-verdict-label">ATS Hostile</div>
+                    <div class="ats-verdict-title">Typical Resume Builder</div>
+                    <div class="ats-verdict-desc">Fancy templates with sidebars, icons, images, and creative layouts look great — to humans. ATS software? It can't read them.</div>
+                    <ul class="ats-verdict-list">
+                        <li>Multi-column layouts confuse parsers</li>
+                        <li>Graphics and icons aren't read at all</li>
+                        <li>Custom fonts cause character errors</li>
+                        <li>Tables scramble the reading order</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us / Testimonials -->
+    <section class="why-choose" id="why-choose">
+        <div class="why-choose-inner">
+            <h2 class="why-choose-heading">WHY CHOOSE US?</h2>
+            <p class="why-choose-subheading">See the difference a ResumePulse resume makes vs. the competition.</p>
+
+            <div class="resume-compare">
+                <div class="compare-card ours">
+                    <span class="compare-tag">ResumePulse</span>
+                    <div class="compare-resume-preview">
+                        <div class="rp-name">Priya Sharma</div>
+                        <div class="rp-title">Software Engineer | Python | React | AWS</div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Experience</div>
+                            <div class="rp-bullet">Built REST APIs serving 500K+ daily requests at TCS</div>
+                            <div class="rp-bullet">Reduced deployment time by 40% using CI/CD pipelines</div>
+                        </div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Skills</div>
+                            <div class="rp-bullet">Python, Django, React, AWS, Docker, PostgreSQL</div>
+                        </div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Education</div>
+                            <div class="rp-bullet">B.Tech CSE, Andhra University, 2025</div>
+                        </div>
+                    </div>
+                    <div class="compare-score-label">
+                        <span>ATS Score</span>
+                        <span class="score-num">92/100</span>
+                    </div>
+                    <div class="compare-score-bar">
+                        <div class="compare-score-fill"></div>
+                    </div>
+                    <ul class="compare-features">
+                        <li><span class="feat-icon">&#x2713;</span> Clean single-column layout</li>
+                        <li><span class="feat-icon">&#x2713;</span> Standard section headers ATS reads</li>
+                        <li><span class="feat-icon">&#x2713;</span> Keyword-optimized content</li>
+                        <li><span class="feat-icon">&#x2713;</span> No graphics or tables blocking parsing</li>
+                    </ul>
+                </div>
+                <div class="compare-card others">
+                    <span class="compare-tag">Other Builders</span>
+                    <div class="compare-resume-preview">
+                        <div class="rp-name">Priya Sharma</div>
+                        <div class="rp-title">Software Engineer</div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Experience</div>
+                            <div class="rp-bullet">Built REST APIs at TCS</div>
+                            <div class="rp-bullet">Worked on CI/CD</div>
+                        </div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Skills</div>
+                            <div class="rp-bullet">Python, React, AWS</div>
+                        </div>
+                        <div class="rp-section">
+                            <div class="rp-section-title">Education</div>
+                            <div class="rp-bullet">B.Tech, 2025</div>
+                        </div>
+                    </div>
+                    <div class="compare-score-label">
+                        <span>ATS Score</span>
+                        <span class="score-num">34/100</span>
+                    </div>
+                    <div class="compare-score-bar">
+                        <div class="compare-score-fill"></div>
+                    </div>
+                    <ul class="compare-features">
+                        <li><span class="feat-icon">&#x2717;</span> Multi-column layout confuses ATS</li>
+                        <li><span class="feat-icon">&#x2717;</span> Icons and graphics can't be parsed</li>
+                        <li><span class="feat-icon">&#x2717;</span> Weak keyword optimization</li>
+                        <li><span class="feat-icon">&#x2717;</span> Custom fonts cause read errors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="testimonials-row">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="testimonial-text">"I applied to 30+ companies with my old resume — zero callbacks. Switched to ResumePulse, got 5 interview calls in the first week. The ATS format is the real deal."</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">R</div>
+                        <div>
+                            <div class="testimonial-name">Rahul Mehta</div>
+                            <div class="testimonial-role">Backend Developer, Bangalore</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="testimonial-text">"As a fresher, I had no idea ATS even existed. ResumePulse made it stupid simple — fill the form, get a clean resume, and actually hear back from companies."</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">A</div>
+                        <div>
+                            <div class="testimonial-name">Anjali Rao</div>
+                            <div class="testimonial-role">B.Tech Fresher, Vizag</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="testimonial-text">"I was paying for a fancy resume builder. It looked great but never got past ATS. ResumePulse is free AND actually works. Wish I found this sooner."</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">K</div>
+                        <div>
+                            <div class="testimonial-name">Karan Singh</div>
+                            <div class="testimonial-role">Data Analyst, Mumbai</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="faq-inner">
+            <h2 class="faq-heading">FAQs</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">What is ATS and why should I care?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">ATS stands for Applicant Tracking System — software companies use to filter resumes before a human ever sees them. Over 75% of resumes get rejected by ATS because of bad formatting, missing keywords, or unreadable layouts. ResumePulse builds resumes specifically designed to pass ATS screening.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is ResumePulse really free?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">Yes, 100% free. No hidden charges, no "premium" unlock, no watermark on your resume. We believe everyone deserves a shot at getting hired — not just people who can pay for resume builders.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How is this different from Canva or other resume builders?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">Canva and similar tools make visually stunning resumes — but ATS software can't read them. Multi-column layouts, icons, custom fonts, and graphics all break ATS parsing. ResumePulse uses a clean, single-column format that ATS reads perfectly, while still looking professional to human recruiters.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I download my resume as PDF?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">Yes! Once you fill in your details and preview your resume, you can download it as a clean, ATS-friendly PDF — ready to submit to any job portal.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is my data safe?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">We don't store your resume on our servers beyond the session. Your data stays in your browser and is only sent to our backend for PDF generation. We never share, sell, or use your information for anything else. Check our privacy policy for the full details.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">I'm a fresher with no experience. Will this work for me?<span class="faq-toggle">+</span></div>
+                    <div class="faq-answer">Absolutely. ResumePulse is built with freshers in mind. The form lets you highlight projects, skills, and education — the things that matter most when you're starting out. You don't need work experience to create a strong, ATS-friendly resume.</div>
+                </div>
             </div>
         </div>
     </section>
@@ -1429,7 +2129,7 @@ body {
                 <h3 class="form-card-title">Education</h3>
                 <div id="education-container">
                     <div class="entry-block" data-type="education">
-                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <button type="button" class="remove-btn" data-action="remove-entry">×</button>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Institution *</label>
@@ -1450,7 +2150,7 @@ body {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-add" onclick="addEntry('education')">+ Add Education</button>
+                <button type="button" class="btn-add" data-action="add-entry" data-type="education">+ Add Education</button>
             </div>
 
             <!-- Skills -->
@@ -1467,7 +2167,7 @@ body {
                 <h3 class="form-card-title">Projects</h3>
                 <div id="projects-container">
                     <div class="entry-block" data-type="project">
-                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <button type="button" class="remove-btn" data-action="remove-entry">×</button>
                         <div class="form-group full-width">
                             <label>Project Name *</label>
                             <input type="text" class="proj-name" required placeholder="E-commerce Platform">
@@ -1482,7 +2182,7 @@ body {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-add" onclick="addEntry('project')">+ Add Project</button>
+                <button type="button" class="btn-add" data-action="add-entry" data-type="project">+ Add Project</button>
             </div>
 
             <!-- Experience -->
@@ -1490,7 +2190,7 @@ body {
                 <h3 class="form-card-title">Experience (Optional)</h3>
                 <div id="experience-container">
                     <div class="entry-block" data-type="experience">
-                        <button type="button" class="remove-btn" onclick="removeEntry(this)">×</button>
+                        <button type="button" class="remove-btn" data-action="remove-entry">×</button>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Company/Organization</label>
@@ -1511,7 +2211,7 @@ body {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-add" onclick="addEntry('experience')">+ Add Experience</button>
+                <button type="button" class="btn-add" data-action="add-entry" data-type="experience">+ Add Experience</button>
             </div>
 
             <!-- Achievements -->
@@ -1526,8 +2226,8 @@ body {
             </div>
 
             <div class="form-actions">
-                <button type="button" class="btn btn-outline-dark" onclick="showPage('home')">Back to Home</button>
-                <button type="button" class="btn btn-dark" onclick="previewResume()">Preview Resume</button>
+                <button type="button" class="btn btn-outline-dark" id="back-home-btn">Back to Home</button>
+                <button type="button" class="btn btn-dark" id="preview-btn">Preview Resume</button>
             </div>
         </form>
     </div>
@@ -1539,12 +2239,12 @@ body {
     <h2>Success!</h2>
     <p>Your resume has been submitted successfully</p>
     <p class="success-message">Our team will review your resume and get back to you shortly.</p>
-    <button class="btn btn-primary" onclick="showPage('home')">Back to Home</button>
+    <button class="btn btn-primary" id="success-home-btn">Back to Home</button>
 </section>
 
 <!-- Privacy Modal -->
 <div id="privacy-modal" class="modal">
-    <div class="modal-overlay" onclick="hidePrivacyModal()"></div>
+    <div class="modal-overlay" id="privacy-overlay"></div>
     <div class="modal-content">
         <h2>Privacy Policy</h2>
         <p class="modal-subtitle">Please review our terms before continuing</p>
@@ -1562,13 +2262,13 @@ body {
         </div>
         <div style="display: flex; flex-direction: column; gap: 16px;">
             <label class="checkbox-container" style="justify-content: center;">
-                <input type="checkbox" id="privacy-checkbox" onchange="togglePrivacyButton()">
+                <input type="checkbox" id="privacy-checkbox">
                 <span class="checkmark"></span>
                 I have read and agree to the Privacy Policy
             </label>
             <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="hidePrivacyModal()">Decline</button>
-                <button class="btn btn-primary" id="accept-privacy" onclick="acceptPrivacy()" disabled>Accept & Continue</button>
+                <button class="btn btn-secondary" id="decline-privacy-btn">Decline</button>
+                <button class="btn btn-primary" id="accept-privacy" disabled>Accept & Continue</button>
             </div>
         </div>
     </div>
@@ -1576,14 +2276,14 @@ body {
 
 <!-- Preview Modal -->
 <div id="preview-modal" class="modal">
-    <div class="modal-overlay" onclick="hidePreviewModal()"></div>
+    <div class="modal-overlay" id="preview-overlay"></div>
     <div class="modal-content preview-content">
         <h2>Preview Your Resume</h2>
         <p class="modal-subtitle">Review your information before submitting</p>
         <div id="preview-container" class="preview-container"></div>
         <div class="modal-buttons">
-            <button class="btn btn-outline-dark" onclick="hidePreviewModal()">Edit Resume</button>
-            <button class="btn btn-dark" onclick="submitResume()">Confirm & Submit</button>
+            <button class="btn btn-outline-dark" id="edit-resume-btn">Edit Resume</button>
+            <button class="btn btn-dark" id="submit-resume-btn">Confirm & Submit</button>
         </div>
     </div>
 </div>
@@ -1595,6 +2295,13 @@ body {
 </div>
 
 <script>
+// FAQ Toggle
+function toggleFaq(el) {
+    const wasActive = el.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+    if (!wasActive) el.classList.add('active');
+}
+
 // Page Navigation
 function showPage(pageName) {
     document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
@@ -1692,6 +2399,13 @@ function initCardSwipe() {
     let currentX = 0;
     let isDragging = false;
 
+    function resetCardStyles(card) {
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.transition = '';
+        card.style.zIndex = '';
+    }
+
     cardsContainer.addEventListener('mousedown', handleStart);
     cardsContainer.addEventListener('touchstart', handleStart, { passive: true });
     cardsContainer.addEventListener('mousemove', handleMove);
@@ -1716,22 +2430,27 @@ function initCardSwipe() {
         currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
         const diff = currentX - startX;
         const activeCard = cards[currentIndex];
-        if (activeCard) activeCard.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
+        if (activeCard) {
+            activeCard.style.transition = 'none';
+            activeCard.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
+        }
     }
 
     function handleEnd(e) {
         if (!isDragging || isAnimating) return;
         isDragging = false;
         const diff = currentX - startX;
-        if (Math.abs(diff) > 100) swipeCard(diff > 0 ? 'right' : 'left');
+        if (Math.abs(diff) > 50) swipeCard(diff > 0 ? 'right' : 'left');
         else {
             const activeCard = cards[currentIndex];
             if (activeCard) {
-                activeCard.style.transform = '';
                 activeCard.style.transition = 'transform 0.3s ease';
-                setTimeout(() => activeCard.style.transition = '', 300);
+                activeCard.style.transform = '';
+                setTimeout(() => { if (activeCard) activeCard.style.transition = ''; }, 300);
             }
         }
+        startX = 0;
+        currentX = 0;
     }
 
     function swipeCard(direction) {
@@ -1740,27 +2459,43 @@ function initCardSwipe() {
         const activeCard = cards[currentIndex];
         if (!activeCard) { isAnimating = false; return; }
 
-        activeCard.classList.add(direction === 'left' ? 'swiping-left' : 'swiping-right');
+        const exitX = direction === 'left' ? '-120%' : '120%';
+        const exitRotate = direction === 'left' ? '-15deg' : '15deg';
+
+        activeCard.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        activeCard.style.transform = `translateX(${exitX}) rotate(${exitRotate})`;
+        activeCard.style.opacity = '0';
 
         setTimeout(() => {
-            activeCard.classList.remove('active', 'swiping-left', 'swiping-right');
-            activeCard.style.transform = '';
-            activeCard.style.opacity = '0.5';
+            activeCard.classList.remove('active');
+            resetCardStyles(activeCard);
 
             currentIndex = (currentIndex + 1) % cards.length;
 
-            cards.forEach((card, index) => {
-                card.style.zIndex = index === currentIndex ? 10 : 0;
-            });
+            cards.forEach((card) => resetCardStyles(card));
 
             const nextCard = cards[currentIndex];
             if (nextCard) {
                 nextCard.classList.add('active');
-                nextCard.style.opacity = '1';
-                nextCard.style.transform = 'scale(1) translateY(0)';
-            }
+                nextCard.style.opacity = '0';
+                nextCard.style.transform = 'scale(0.8) translateY(20px)';
+                nextCard.style.transition = 'none';
 
-            isAnimating = false;
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        nextCard.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+                        nextCard.style.transform = 'scale(1) translateY(0)';
+                        nextCard.style.opacity = '1';
+
+                        setTimeout(() => {
+                            resetCardStyles(nextCard);
+                            isAnimating = false;
+                        }, 400);
+                    });
+                });
+            } else {
+                isAnimating = false;
+            }
         }, 300);
     }
 }
@@ -1983,6 +2718,71 @@ async function submitResume() {
 
 // Navbar scroll effect
 // Navbar stays black, no scroll effect needed
+
+// ===== Event Delegation (CSP-safe, no inline handlers) =====
+document.addEventListener('DOMContentLoaded', () => {
+    // Nav logo
+    document.getElementById('nav-logo').addEventListener('click', () => showPage('home'));
+
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
+
+    // Nav links
+    document.getElementById('nav-home').addEventListener('click', (e) => {
+        e.preventDefault();
+        scrollToSection('home-page', e.currentTarget);
+        toggleMenu();
+    });
+    document.getElementById('nav-how').addEventListener('click', (e) => {
+        e.preventDefault();
+        scrollToSection('how-it-works', e.currentTarget);
+        toggleMenu();
+    });
+    document.getElementById('nav-build').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('form');
+        toggleMenu();
+    });
+
+    // Hero build button
+    document.getElementById('hero-build-btn').addEventListener('click', showPrivacyModal);
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => toggleFaq(item));
+    });
+
+    // Form buttons
+    document.getElementById('back-home-btn').addEventListener('click', () => showPage('home'));
+    document.getElementById('preview-btn').addEventListener('click', previewResume);
+
+    // Success page
+    document.getElementById('success-home-btn').addEventListener('click', () => showPage('home'));
+
+    // Privacy modal
+    document.getElementById('privacy-overlay').addEventListener('click', hidePrivacyModal);
+    document.getElementById('decline-privacy-btn').addEventListener('click', hidePrivacyModal);
+    document.getElementById('privacy-checkbox').addEventListener('change', togglePrivacyButton);
+    document.getElementById('accept-privacy').addEventListener('click', acceptPrivacy);
+
+    // Preview modal
+    document.getElementById('preview-overlay').addEventListener('click', hidePreviewModal);
+    document.getElementById('edit-resume-btn').addEventListener('click', hidePreviewModal);
+    document.getElementById('submit-resume-btn').addEventListener('click', submitResume);
+
+    // Add entry buttons (delegation for dynamic content)
+    document.addEventListener('click', (e) => {
+        const addBtn = e.target.closest('[data-action="add-entry"]');
+        if (addBtn) {
+            addEntry(addBtn.dataset.type);
+            return;
+        }
+        const removeBtn = e.target.closest('[data-action="remove-entry"]');
+        if (removeBtn) {
+            removeEntry(removeBtn);
+        }
+    });
+});
 </script>
 
 </body>
