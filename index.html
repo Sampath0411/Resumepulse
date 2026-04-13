@@ -2690,12 +2690,12 @@ async function submitResume() {
             name: data.personal.fullName,
             email: data.personal.email,
             phone: data.personal.phone,
-            linkedin: data.personal.linkedin,
+            linkedin: data.personal.linkedin || null,
             education: JSON.stringify(data.education),
             skills: data.skills,
             projects: JSON.stringify(data.projects),
             experience: JSON.stringify(data.experience),
-            achievements: data.achievements,
+            achievements: data.achievements || null,
             timestamp: new Date().toISOString()
         };
 

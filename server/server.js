@@ -186,7 +186,7 @@ const validateResume = [
         .customSanitizer(value => xss(value)),
 
     body('linkedin')
-        .optional()
+        .optional({ checkFalsy: true })
         .trim()
         .isURL().withMessage('Invalid LinkedIn URL')
         .isLength({ max: 200 }).withMessage('LinkedIn URL too long')
@@ -214,7 +214,7 @@ const validateResume = [
         .customSanitizer(value => xss(value)),
 
     body('achievements')
-        .optional()
+        .optional({ checkFalsy: true })
         .isLength({ max: 1000 }).withMessage('Achievements too long')
         .customSanitizer(value => xss(value)),
 
