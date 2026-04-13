@@ -2699,7 +2699,8 @@ async function submitResume() {
             timestamp: new Date().toISOString()
         };
 
-        const response = await fetch('http://localhost:3000/api/submit-resume', {
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+        const response = await fetch(`${API_BASE}/api/submit-resume`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -2712,7 +2713,7 @@ async function submitResume() {
         document.getElementById('resume-form').reset();
     } catch (error) {
         hideLoading();
-        alert('Error submitting: ' + error.message + '\n\nMake sure server is running on http://localhost:3000');
+        alert('Error submitting: ' + error.message + '\n\nPlease try again later.');
     }
 }
 
