@@ -181,8 +181,8 @@ const validateResume = [
     body('phone')
         .trim()
         .notEmpty().withMessage('Phone is required')
-        .matches(/^[\d\s\+\-\(\)]{10,20}$/).withMessage('Invalid phone number')
-        .isLength({ max: 20 }).withMessage('Phone number too long')
+        .matches(/^[\d\s\+\-\(\)\.]{7,30}$/).withMessage('Invalid phone number format')
+        .isLength({ max: 30 }).withMessage('Phone number too long')
         .customSanitizer(value => xss(value)),
 
     body('linkedin')
