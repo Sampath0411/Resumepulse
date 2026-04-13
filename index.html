@@ -2691,10 +2691,10 @@ async function submitResume() {
             email: data.personal.email,
             phone: data.personal.phone,
             linkedin: data.personal.linkedin || null,
-            education: JSON.stringify(data.education),
+            education: data.education.length > 0 ? JSON.stringify(data.education) : null,
             skills: data.skills,
-            projects: JSON.stringify(data.projects),
-            experience: JSON.stringify(data.experience),
+            projects: data.projects.length > 0 ? JSON.stringify(data.projects) : null,
+            experience: data.experience.length > 0 ? JSON.stringify(data.experience) : null,
             achievements: data.achievements || null,
             timestamp: new Date().toISOString()
         };
@@ -2706,7 +2706,11 @@ async function submitResume() {
             body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error('Failed to submit');
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+            console.error('Server error:', errorData);
+            throw new Error(errorData.error || 'Failed to submit');
+        }
 
         hideLoading();
         showPage('success');

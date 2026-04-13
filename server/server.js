@@ -193,7 +193,7 @@ const validateResume = [
         .customSanitizer(value => xss(value)),
 
     body('education')
-        .optional()
+        .optional({ checkFalsy: true })
         .isLength({ max: 5000 }).withMessage('Education data too long')
         .customSanitizer(value => xss(value)),
 
@@ -204,12 +204,12 @@ const validateResume = [
         .customSanitizer(value => xss(value)),
 
     body('projects')
-        .optional()
+        .optional({ checkFalsy: true })
         .isLength({ max: 10000 }).withMessage('Projects data too long')
         .customSanitizer(value => xss(value)),
 
     body('experience')
-        .optional()
+        .optional({ checkFalsy: true })
         .isLength({ max: 10000 }).withMessage('Experience data too long')
         .customSanitizer(value => xss(value)),
 
