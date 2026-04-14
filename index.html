@@ -2500,8 +2500,8 @@ function initCardSwipe() {
     }
 }
 
-// Initialize swipe on load
-initCardSwipe();
+// Initialize swipe moved to DOMContentLoaded
+// initCardSwipe();
 
 // Add Entry Function
 function addEntry(type) {
@@ -2734,6 +2734,11 @@ async function submitResume() {
             console.error('Submit error:', error);
             alert('Error submitting: ' + error.message + '\n\nPlease try again later.');
         }
+    } catch (error) {
+        hideLoading();
+        console.error('Data collection error:', error);
+        alert('Error preparing data: ' + error.message);
+    }
 }
 
 // Navbar scroll effect
@@ -2741,6 +2746,9 @@ async function submitResume() {
 
 // ===== Event Delegation (CSP-safe, no inline handlers) =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize card swipe (needs DOM ready)
+    initCardSwipe();
+
     // Nav logo
     document.getElementById('nav-logo').addEventListener('click', () => showPage('home'));
 
