@@ -5,6 +5,26 @@ const nodemailer = require('nodemailer');
 // In-memory storage for serverless function (resets on cold start)
 const resumeSubmissions = [];
 
+// Parse JSON body manually for Vercel
+function parseBody(req) {
+    return new Promise((resolve, reject) => {
+        if (req.body) {
+            resolve(req.body);
+            return;
+        }
+        let data = '';
+        req.on('data', chunk => data += chunk);
+        req.on('end', () => {
+            try {
+                resolve(JSON.parse(data || '{}'));
+            } catch {
+                resolve({});
+            }
+        });
+        req.on('error', reject);
+    });
+}
+
 // Validation Rules
 const validateResume = [
     body('name')
@@ -130,6 +150,9 @@ module.exports = async (req, res) => {
     }
 
     try {
+        // Parse body manually for Vercel serverless
+        req.body = await parseBody(req);
+
         // Run validation manually (without Express middleware chain)
         const validations = validateResume.map(validation => validation.run(req));
         await Promise.all(validations);
